@@ -1,0 +1,20 @@
+_Store
+open-api-web/node_modules/
+open-api-web/dist/
+open-api-web/npm-debug.log*
+open-api-web/yarn-debug.log*
+open-api-web/yarn-error.log*
+open-api-web/test/unit/coverage/
+open-api-web/test/e2e/reports/
+open-api-web/selenium-debug.log
+
+Open-api/logs/
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+

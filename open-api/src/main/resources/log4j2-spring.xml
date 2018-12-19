@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="OFF" monitorInterval="30">
+
+    <Properties>
+        <Property name="LOG_ROOT">logs</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!--<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%p] %m%n"/>-->
+            <PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss} %level [%C{1}:%L] - %msg%n" />
+        </Console>
+
+        <RollingFile name="INFO_LOG" fileName="${sys:LOG_ROOT}/info.log"
+                     filePattern="${sys:LOG_ROOT}/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log">
+            <!--<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%c %M %L]-[%p] %m%n"/>-->
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %level [%C{36}.%M:%L] - %msg%xEx%n" />
+            <Policies>
+                <!-- 每天一个文件 -->
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <Filters>
+                <ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <DefaultRolloverStrategy max="20"/>
+
+        </RollingFile>
+
+
+        <RollingFile name="ERROR_LOG" fileName="${sys:LOG_ROOT}/error.log"
+                     filePattern="${sys:LOG_ROOT}/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log">
+            <!--<PatternLayout>-->
+                <!--<pattern>%d{yyyy-MM-dd HH:mm:ss} [%c %M %L]-[%p] %m%n</pattern>-->
+            <!--</PatternLayout>-->
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %level [%C{36}.%M:%L] - %msg%xEx%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <Filters>
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+
+            <DefaultRolloverStrategy max="20"/>
+
+        </RollingFile>
+
+    </Appenders>
+    <Loggers>
+        <!-- 过滤包 -->
+        <!--<Logger name="com.handu.hdbi" level="INFO"-->
+                <!--additivity="false">-->
+            <!--<AppenderRef ref="Console"/>-->
+            <!--<AppenderRef ref="TEST_INFO"/>-->
+            <!--<AppenderRef ref="TEST_ERROR"/>-->
+            <!--<AppenderRef ref="TEST_WARN"/>-->
+        <!--</Logger>-->
+
+        <Root level="INFO" additivity="false">
+        	<AppenderRef ref="Console"/>
+            <AppenderRef ref="INFO_LOG"/>
+            <AppenderRef ref="ERROR_LOG"/>
+        </Root>
+    </Loggers>
+</Configuration>
